@@ -1,4 +1,6 @@
 /*
+Ease the array
+
 https://practice.geeksforgeeks.org/problems/ease-the-array/0
 
 Input : arr[] = {2, 2, 0, 4, 0, 8}

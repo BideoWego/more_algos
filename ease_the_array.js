@@ -35,5 +35,33 @@ function ease(array) {
   return eased;
 }
 
+function easeInPlace(array) {
+  for (let i = 0; i < array.length - 1; i++) {
+    const a = array[i];
+    const b = array[i + 1];
+    if (a === b) {
+      array[i] = a * 2;
+      array[i + 1] = 0;
+    }
+  }
+
+  for (let i = 0, j = 0; i < array.length; i++) {
+    const a = array[i];
+    if (a !== 0) {
+      const b = array[j];
+      array[j] = a;
+      array[i] = b;
+      j++;
+    }
+  }
+  return array;
+}
+
 console.log(ease([2, 2, 0, 4, 0, 8]));
 console.log(ease([0, 2, 2, 2, 0, 6, 6, 0, 0, 8]));
+console.log();
+console.log(easeInPlace([2, 2, 0, 4, 0, 8]));
+console.log(easeInPlace([0, 2, 2, 2, 0, 6, 6, 0, 0, 8]));
+console.log();
+console.log(easeInPlace([2, 2, 0, 4, 4]));
+console.log(easeInPlace([0, 1, 2, 2, 0]));

@@ -4,10 +4,15 @@
  * @returns {boolean}
  */
 function isPalindrome(str) {
-  for (let i = 0, j = str.length - 1; i < str.length; i++, j--) {
+  let i = 0;
+  let j = str.length - 1;
+  const middle = str.length % 2 === 0 ? 0 : 1;
+  while (j - i > middle) {
     if (str[i] !== str[j]) {
       return false;
     }
+    i++;
+    j--;
   }
   return true;
 }
@@ -26,10 +31,10 @@ var longestPalindrome = function(s) {
     return s[0] === s[1] ? s : s[0];
   }
 
-  for (let i = s.length - 1; i >= 2; i--) {
-    for (let j = 0; j + i < s.length; j++) {
-      const str = s.substring(j, i + 1);
-      console.log('-', str);
+  for (let i = s.length; i >= 2; i--) {
+    for (let j = 0; j + i <= s.length; j++) {
+      const str = s.substring(j, j + i);
+      console.log(j, i, str);
       if (isPalindrome(str)) {
         return str;
       }
@@ -49,9 +54,12 @@ const inputs = [
   'cecec',
   'ac',
   'abb',
-  'ccd'
+  'ccd',
+  'abcdefg'
 ];
 
 inputs.forEach(str => {
+  console.log(`str === '${ str }'`);
   console.log(longestPalindrome(str));
+  console.log();
 });

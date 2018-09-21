@@ -34,7 +34,6 @@ var longestPalindrome = function(s) {
   for (let i = s.length; i >= 2; i--) {
     for (let j = 0; j + i <= s.length; j++) {
       const str = s.substring(j, j + i);
-      console.log(j, i, str);
       if (isPalindrome(str)) {
         return str;
       }
@@ -44,7 +43,7 @@ var longestPalindrome = function(s) {
   return s[0];
 };
 
-const inputs = [
+const tests = [
   'babad',
   'cbbd',
   'a',
@@ -58,8 +57,8 @@ const inputs = [
   'abcdefg'
 ];
 
-inputs.forEach(str => {
+tests.forEach(str => {
   console.log(`str === '${ str }'`);
-  console.log(longestPalindrome(str));
+  console.log(`'${ longestPalindrome(str) }'`);
   console.log();
 });

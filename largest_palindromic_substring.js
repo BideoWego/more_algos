@@ -62,3 +62,37 @@ tests.forEach(str => {
   console.log(`'${ longestPalindrome(str) }'`);
   console.log();
 });
+
+// str === 'babad'
+//=> 'bab'
+
+// str === 'cbbd'
+//=> 'bb'
+
+// str === 'a'
+//=> 'a'
+
+// str === ''
+//=> ''
+
+// str === 'aa'
+//=> 'aa'
+
+// str === 'aba'
+//=> 'aba'
+
+// str === 'cecec'
+//=> 'cecec'
+
+// str === 'ac'
+//=> 'a'
+
+// str === 'abb'
+//=> 'bb'
+
+// str === 'ccd'
+//=> 'cc'
+
+// str === 'abcdefg'
+//=> 'a'
+

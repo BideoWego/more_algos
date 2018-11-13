@@ -7,12 +7,16 @@ function add(num) {
             return num;
         }
     };
-    Object.defineProperties(fn, {
-        value: {
-            get: function() { return num; }
-        }
-    });
     return fn;
 }
 
-console.log(add(1)(2)(3)(4).value);
+console.log(add(1)(2)());
+//=> 3
+console.log(add(1)(2)(3)());
+//=> 6
+console.log(add(1)(2)(3)(4)());
+//=> 10
+console.log(add(1)(2)(3)(4)(5)());
+//=> 15
+console.log(add(1)(2)(3)(4)(5)(6)());
+//=> 21

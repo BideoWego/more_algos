@@ -1,14 +1,14 @@
 function concat(target) {
-    var concatenated = target.slice();
-    var cc = array => {
+    var copy = target.slice();
+    function cc(array) {
         if (array === undefined) {
-            return concatenated;
+            return this.target;
         }
         var copy = array.slice();
-        concatenated = concatenated.concat(copy);
-        return cc;
-    };
-    return cc;
+        copy = this.target.concat(copy);
+        return cc.bind({ target: copy });
+    }
+    return cc.bind({ target: copy });
 }
 
 var a = [1];
@@ -31,3 +31,11 @@ console.log(e);
 //=> [5]
 console.log(f);
 //=> [6]
+
+const concat1 = concat([1]);
+console.log(concat1([2])());
+//=> [1, 2]
+console.log(concat1([3])());
+//=> [1, 3]
+// NOT
+//=> [1, 2, 3]

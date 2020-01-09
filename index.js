@@ -1,46 +1,91 @@
+// https://leetcode.com/problems/valid-parentheses/
+
+// Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+// An input string is valid if:
+
+// Open brackets must be closed by the same type of brackets.
+// Open brackets must be closed in the correct order.
+// Note that an empty string is also considered valid.
+
+// Example 1:
+
+// Input: "()"
+// Output: true
+// Example 2:
+
+// Input: "()[]{}"
+// Output: true
+// Example 3:
+
+// Input: "(]"
+// Output: false
+// Example 4:
+
+// Input: "([)]"
+// Output: false
+// Example 5:
+
+// Input: "{[]}"
+// Output: true
+
+
 /**
- * @param {string[]} strs
- * @return {string}
+ * @param {string} s
+ * @return {boolean}
  */
-var longestCommonPrefix = function(strs) {
-	var prefix = "";
+var isValid = function(s) {
+    if ((typeof s === 'string' || s instanceof String) && !s.length) {
+        return true;
+    }
 
-	if (!strs.length) {
-		return prefix;
-	}
+    if (s.length % 2 !== 0) {
+        return false;
+    }
 
-	var strA = strs[0];
-	for (var i = 0; i < strA.length; i++) {
-		var charA = strA[i];
-		var matches = 1;
-		for (var j = 1; j < strs.length; j++) {
-			var strB = strs[j];
-			var charB = strB[i];
-			if (charA === charB) {
-				matches++;
-			} else {
-				break;
-			}
-		}
-		if (matches === strs.length) {
-			prefix += charA;
-		} else {
-			break;
-		}
-	}
+    var expecting = [];
+    var map = {
+        "(": ")",
+        "[": "]",
+        "{": "}"
+    };
 
-	return prefix;
+    for (var i = 0; i < s.length; i++) {
+        var char = s[i];
+        var closer = map[char];
+        if (closer) {
+            expecting.push(closer);
+        } else {
+            closer = expecting.pop();
+            if (char !== closer) {
+                return false;
+            }
+        }
+    }
+
+    if (expecting.length) {
+        return false;
+    }
+
+    return true;
 };
 
 
+
+
 var testCases = [
-	[["flower","flow","flight"], "fl"],
-	[["dog","racecar","car"], ""],
-	[["aca","cba"], ""]
+    ['', true],
+    ['[', false],
+    ['((', false],
+	['()', true],
+	['()[]{}', true],
+	['(]', false],
+	['([)]', false],
+	['{[]}', true]
 ];
 
 testCases.forEach(([testCase, expected]) => {
-	var result = longestCommonPrefix(testCase);
+	var result = isValid(testCase);
 	console.log(`
 		\r${ expected === result ? 'PASSED' : 'FAILED' }
 		\rTest case: ${ testCase }
@@ -48,4 +93,5 @@ testCases.forEach(([testCase, expected]) => {
 		\rGot: ${ result }
 	`);
 });
+
 

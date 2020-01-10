@@ -1,97 +1,97 @@
-// https://leetcode.com/problems/valid-parentheses/
-
-// Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
-
-// An input string is valid if:
-
-// Open brackets must be closed by the same type of brackets.
-// Open brackets must be closed in the correct order.
-// Note that an empty string is also considered valid.
-
-// Example 1:
-
-// Input: "()"
-// Output: true
-// Example 2:
-
-// Input: "()[]{}"
-// Output: true
-// Example 3:
-
-// Input: "(]"
-// Output: false
-// Example 4:
-
-// Input: "([)]"
-// Output: false
-// Example 5:
-
-// Input: "{[]}"
-// Output: true
+// https://leetcode.com/problems/merge-two-sorted-lists/
 
 
-/**
- * @param {string} s
- * @return {boolean}
- */
-var isValid = function(s) {
-    if ((typeof s === 'string' || s instanceof String) && !s.length) {
-        return true;
-    }
+// Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
 
-    if (s.length % 2 !== 0) {
-        return false;
-    }
+// Example:
 
-    var expecting = [];
-    var map = {
-        "(": ")",
-        "[": "]",
-        "{": "}"
-    };
+// Input: 1->2->4, 1->3->4
+// Output: 1->1->2->3->4->4
 
-    for (var i = 0; i < s.length; i++) {
-        var char = s[i];
-        var closer = map[char];
-        if (closer) {
-            expecting.push(closer);
-        } else {
-            closer = expecting.pop();
-            if (char !== closer) {
-                return false;
-            }
+function ListNode(val) {
+    this.val = val;
+    this.next = null;
+}
+
+function node2str(node) {
+    var str = '';
+    do {
+        str += node.val !== undefined && node.val !== null ? node.val : '';
+        if (node.next) {
+            str += '->'
+        }
+        node = node.next;
+    } while (node);
+    return str;
+};
+
+function createLinkedList(values) {
+    var ll = ref = new ListNode();
+    for (var i = 0; i < values.length; i++) {
+        var value = values[i];
+        ref.val = value;
+        if (i < values.length - 1) {
+            ref.next = new ListNode();
+            ref = ref.next;
         }
     }
+    return ll;
+}
 
-    if (expecting.length) {
-        return false;
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+var mergeTwoLists = function(l1, l2) {
+    var sorted = new ListNode();
+    var ref = sorted;
+    var a = l1;
+    var b = l2;
+    while (a || b) {
+        if (a && b) {
+            var gt = a.val > b.val ? a : b;
+            var lt = a.val > b.val ? b : a;
+            ref.next = new ListNode(lt.val);
+            ref.next.next = new ListNode(gt.val);
+            a = a.next;
+            b = b.next;
+            ref = ref.next.next;
+        } else if (a) {
+            ref.next = new ListNode(a.val);
+            a = a.next;
+            ref = ref.next;
+        } else if (b) {
+            ref.next = new ListNode(b.val);
+            b = b.next;
+            ref = ref.next;
+        }
     }
-
-    return true;
+    var head = sorted.next;
+    sorted = null;
+    return head;
 };
 
 
-
-
 var testCases = [
-    ['', true],
-    ['[', false],
-    ['((', false],
-	['()', true],
-	['()[]{}', true],
-	['(]', false],
-	['([)]', false],
-	['{[]}', true]
+    [[createLinkedList([5]), createLinkedList([1, 2, 4])], '1->2->4->5'],
+    [[createLinkedList([1, 2, 4]), createLinkedList([1, 3, 4])], '1->1->2->3->4->4']
 ];
 
 testCases.forEach(([testCase, expected]) => {
-	var result = isValid(testCase);
-	console.log(`
-		\r${ expected === result ? 'PASSED' : 'FAILED' }
-		\rTest case: ${ testCase }
-		\rExpected: ${ expected }
-		\rGot: ${ result }
-	`);
+    var [a, b] = testCase;
+    var result = mergeTwoLists(a, b);
+    console.log(`
+        \r${ expected === node2str(result) ? 'PASSED' : 'FAILED' }
+        \rTest case: ${ testCase }
+        \rExpected: ${ expected }
+        \rGot: ${ node2str(result) }
+    `);
 });
-
-
